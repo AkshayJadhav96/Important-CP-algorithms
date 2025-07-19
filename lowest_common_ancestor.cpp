@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 // we can find the LCA of two nodes u and v in O(log n) time using binary lifting.
-int n,l; //nis total number of nodes, l is the maximum power of 2 we need to consider
+int n,l; //n is total number of nodes, l is the maximum power of 2 we need to consider
 vector<vector<int>> up; // up[u][j] will store the 2^j
 vector<vector<int>> adj; // adjacency list for the tree
 vector<int> tin,tout;
