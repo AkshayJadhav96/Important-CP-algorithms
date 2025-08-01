@@ -1,16 +1,19 @@
 // Iterative Inorder, Preorder, Postorder Traversal
 
-// Inorder Traversal:
+// Inorder Traversal: N-L-R
 // Left doesn't exist: Note down node values and move to right
 // Left exists:
 // If left subtree not traversed (link doesn't exist): Create the link and move to the left
 // If left subtree traversed (link exists): Remove the link, note down the value of node and move to right
 
-// Preorder Traversal:
+// Preorder Traversal: L-N-R
 // Left doesn't exist: Note down node values and move to right
 // Left exists:
 // If left subtree not traversed (link doesn't exist): Note down the value of node create the link and move to the left
 // If left subtree traversed (link exists): Remove the link, move to right
+
+// Postorder Traversal: L-R-N
+// Reverse of PostOrder is N-R-L which is anologous to the preorder i.e. N-L-R so first find N-R-L then reverse it.
 
 #include<bits/stdc++.h>
 using namespace std;
@@ -84,6 +87,36 @@ vector<int> preorder(TreeNode* root){
     return ans;
 }
 
+vector<int> postorder(TreeNode* root){
+    vector<int> ans;
+    while(root){
+        // Right Part Doesn't Exist
+        if(!root->right){
+            ans.push_back(root->val);
+            root = root->left; 
+        }
+        // Right Part Exists
+        else{
+            TreeNode* curr = root->right;
+            while(curr->left && curr->left!=root){
+                curr = curr->left;
+            }
+            // If right subtree not traversed
+            if(!curr->left){
+                ans.push_back(root->val);
+                curr->left = root;
+                root = root->right;
+            }
+            // If right subtree traversed
+            else{
+                curr->left = nullptr;
+                root = root->left;
+            }
+        }
+    }
+    reverse(begin(ans),end(ans));
+    return ans;
+}
 
 int main(){
     TreeNode* root = new TreeNode(1);
@@ -108,9 +141,9 @@ int main(){
     for(auto j : preorder(root)){
         cout<<j<<" ";
     }
-    // cout<<"\nPostorder Traversal: ";
-    // for(auto j : postorder(root)){
-    //     cout<<j<<" ";
-    // }
+    cout<<"\nPostorder Traversal: ";
+    for(auto j : postorder(root)){
+        cout<<j<<" ";
+    }
     cout<<endl;
 }
